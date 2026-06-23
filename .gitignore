@@ -14,3 +14,10 @@
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+
+# scratch render images (preview.png is committed intentionally)
+p_t-*.png
+p_c-*.png
+v_*.png
+chk_*.png
+tmpf-*.png
