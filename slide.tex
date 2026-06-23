@@ -130,6 +130,17 @@
 \fvset{numbers=left, numbersep=6pt, fontsize=\small, frame=single,
        framesep=3mm, rulecolor=\color{black!25}}
 
+%--- Section divider: its own page, no header (frame carries no frametitle) ----
+\AtBeginSection[]{%
+  \begin{frame}[c]
+    \centering
+    {\usebeamercolor[fg]{structure}\Large\bfseries
+     \insertsectionnumber.\enspace\insertsection\par}
+    \vspace{0.6em}
+    {\color{SMUred}\rule{0.45\textwidth}{1pt}}
+  \end{frame}%
+}
+
 \begin{document}
 
 % ---- Title (no header, footer, or watermark) --------------------------------
