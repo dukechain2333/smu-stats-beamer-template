@@ -50,6 +50,8 @@
 
 %--- Navy header bar with crimson left stripe + white "SMU" wordmark -----------
 \newlength{\smubarht}\setlength{\smubarht}{1.05cm}
+\newlength{\smuprog}          % computed width of the progress-bar fill
+\def\smuprogh{1pt}            % progress-bar thickness (along header's bottom edge)
 \setbeamertemplate{frametitle}{%
   \nointerlineskip%
   \begin{tikzpicture}[remember picture, overlay]
@@ -65,6 +67,14 @@
       {\IfFileExists{SMUlogoWhite.png}%
         {\includegraphics[height=0.52\smubarht]{SMUlogoWhite.png}}%
         {\textcolor{white}{\Large\bfseries SMU}}};
+    % progress bar along the bottom edge of the header (fills with deck progress)
+    \ifnum\inserttotalframenumber>0\relax
+      \pgfmathsetlength{\smuprog}{\paperwidth*\insertframenumber/\inserttotalframenumber}%
+      \fill[SMUred!25] ([yshift=-\smubarht]current page.north west)
+        rectangle ([yshift=\dimexpr-\smubarht+\smuprogh\relax]current page.north east);
+      \fill[SMUred] ([yshift=-\smubarht]current page.north west)
+        rectangle ([xshift=\smuprog, yshift=\dimexpr-\smubarht+\smuprogh\relax]current page.north west);
+    \fi
   \end{tikzpicture}%
   \vspace*{\dimexpr\smubarht+0.15cm\relax}%
 }
