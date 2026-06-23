@@ -1,0 +1,171 @@
+%==============================================================================
+%  slide.tex  --  Unofficial SMU (Southern Methodist University) Beamer theme
+%
+%  Self-contained: stock beamer + tikz.  The brand assets SMUbg.png /
+%  SMU-Dedman.jpg / SMUlogoWhite.png are picked up automatically if present,
+%  and the deck degrades gracefully without them.
+%
+%  Build:  pdflatex slide   (run twice so the tikz overlays settle)
+%==============================================================================
+\documentclass[aspectratio=43,11pt]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{helvet}  % Helvetica (text)
+\usepackage{courier}         % Courier (code)
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{tikz}
+\usepackage{fancyvrb}
+\usepackage{amsmath}
+
+%--- SMU brand colours --------------------------------------------------------
+\definecolor{SMUblue}{HTML}{354CA1}   % official SMU blue
+\definecolor{SMUred}{HTML}{CC0035}    % SMU crimson accent
+
+%--- Palette ------------------------------------------------------------------
+\setbeamercolor{normal text}{fg=black!88, bg=white}
+\setbeamercolor{structure}{fg=SMUblue}
+\setbeamercolor{itemize item}{fg=SMUred}
+\setbeamercolor{itemize subitem}{fg=SMUred}
+\setbeamercolor{enumerate item}{fg=SMUblue}
+\setbeamercolor{block title}{fg=white, bg=SMUblue}
+\setbeamercolor{block body}{bg=SMUblue!8}
+\setbeamercolor{block title example}{fg=white, bg=SMUred}
+\setbeamercolor{block body example}{bg=SMUred!8}
+\setbeamercolor{footline}{fg=black!45}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+%--- Faded background watermark (only if SMUbg.png is present) -----------------
+\setbeamertemplate{background}{%
+  \IfFileExists{SMUbg.png}{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[opacity=0.07] at ([yshift=-0.3cm]current page.center)
+        {\includegraphics[height=0.92\paperheight]{SMUbg.png}};
+    \end{tikzpicture}%
+  }{}%
+}
+
+%--- Navy header bar with crimson left stripe + white "SMU" wordmark -----------
+\newlength{\smubarht}\setlength{\smubarht}{1.05cm}
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[SMUblue] (current page.north west)
+      rectangle ([yshift=-\smubarht]current page.north east);
+    \fill[SMUred] (current page.north west)
+      rectangle ([xshift=0.14cm, yshift=-\smubarht]current page.north west);
+    \node[anchor=west, text=white, font=\large\bfseries, inner sep=0pt]
+      at ([xshift=0.45cm, yshift=-0.5\smubarht]current page.north west)
+      {\insertframetitle};
+    \node[anchor=east, inner sep=0pt]
+      at ([xshift=-0.45cm, yshift=-0.5\smubarht]current page.north east)
+      {\IfFileExists{SMUlogoWhite.png}%
+        {\includegraphics[height=0.52\smubarht]{SMUlogoWhite.png}}%
+        {\textcolor{white}{\Large\bfseries SMU}}};
+  \end{tikzpicture}%
+  \vspace*{\dimexpr\smubarht+0.15cm\relax}%
+}
+
+%--- Footline: page number bottom-right ---------------------------------------
+\setbeamertemplate{footline}{%
+  \hfill\usebeamercolor[fg]{footline}\footnotesize
+  \insertframenumber/\inserttotalframenumber\hspace*{2.2ex}\vspace*{1.4ex}%
+}
+
+%--- Title page ---------------------------------------------------------------
+\setbeamertemplate{title page}{%
+  \vfill
+  \begin{centering}
+    {\usebeamercolor[fg]{structure}\Large\bfseries\inserttitle\par}
+    \vspace{0.6em}
+    {\color{black!70}\small\bfseries\insertsubtitle\par}
+    \vspace{0.9em}
+    {\color{SMUred}\rule{\textwidth}{1pt}\par}
+    \vspace{1.1em}
+    {\large\insertauthor\par}
+    \vspace{0.4em}
+    {\small\insertinstitute\par}
+    \vfill
+    % Title logo: real asset if available, text fallback otherwise
+    \IfFileExists{SMU-Dedman.jpg}{\includegraphics[height=1.1cm]{SMU-Dedman.jpg}}{%
+      {\bfseries\textcolor{SMUblue}{SMU}\hspace{0.4em}%
+       \textcolor{SMUred}{\footnotesize Dedman College\\[-0.2em]
+       \hspace*{2.4em}of Humanities \& Sciences}}%
+    }
+    \par\vspace{0.4em}
+  \end{centering}
+}
+
+%--- Metadata (fill in as needed) ---------------------------------------------
+\title{Long title \\ Secondary title}
+\subtitle{Additional notes}
+\author{}
+\institute{Department of Statistics and Data Science,\\
+           Southern Methodist University}
+\date{}
+
+%--- Code listing look (numbered Verbatim) ------------------------------------
+\fvset{numbers=left, numbersep=6pt, fontsize=\small, frame=single,
+       framesep=3mm, rulecolor=\color{black!25}}
+
+\begin{document}
+
+% ---- Title ------------------------------------------------------------------
+{\setbeamertemplate{footline}{}\setbeamertemplate{frametitle}{}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}}
+
+% ---- Table of contents ------------------------------------------------------
+\begin{frame}{Table of contents}
+  \tableofcontents
+\end{frame}
+
+% =============================================================================
+\section{Blocks}
+% =============================================================================
+\begin{frame}{Blocks}
+  \begin{exampleblock}{Exercise block}
+    Some exercise
+  \end{exampleblock}
+  \begin{block}{Definition block}
+    Some definition
+  \end{block}
+\end{frame}
+
+% =============================================================================
+\section{Adding extras}
+% =============================================================================
+\begin{frame}[fragile]{Adding codes}
+  \begin{Verbatim}
+> print("Hello world")
+[1] "Hello world"
+  \end{Verbatim}
+\end{frame}
+
+\begin{frame}{Table}
+  \begin{table}
+    \centering
+    \caption{April 2019}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      Sun & Mon & Tue & Wed & Thu & Fri & Sat \\ \hline
+          & 1  & 2  & 3  & 4  & 5  & 6  \\ \hline
+      7   & 8  & 9  & 10 & 11 & 12 & 13 \\ \hline
+      14  & 15 & 16 & 17 & 18 & 19 & 20 \\ \hline
+      21  & 22 & 23 & 24 & 25 & 26 & 27 \\ \hline
+      28  & 29 & 30 &    &    &    &    \\ \hline
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+\begin{frame}{Equation}
+  \[
+    \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi\sigma^{2}}}\,
+      e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}\,dx = 1
+  \]
+\end{frame}
+
+\end{document}
