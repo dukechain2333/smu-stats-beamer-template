@@ -71,6 +71,9 @@
 \makeatother
 \setbeamertemplate{frametitle}{%
   \nointerlineskip%
+  % compute the section-progress width BEFORE the picture so it survives to \fill
+  \pgfmathsetlength{\smuprog}%
+    {\paperwidth*min(\insertsectionnumber,\totalsections)/\totalsections}%
   \begin{tikzpicture}[remember picture, overlay]
     \fill[SMUblue] (current page.north west)
       rectangle ([yshift=-\smubarht]current page.north east);
@@ -85,8 +88,6 @@
         {\includegraphics[height=0.52\smubarht]{SMUlogoWhite.png}}%
         {\textcolor{white}{\Large\bfseries SMU}}};
     % progress bar along the bottom edge of the header (follows section progress)
-    \pgfmathsetlength{\smuprog}%
-      {\paperwidth*min(\insertsectionnumber,\totalsections)/\totalsections}%
     \fill[SMUred!25] ([yshift=-\smubarht]current page.north west)
       rectangle ([yshift=\dimexpr-\smubarht+\smuprogh\relax]current page.north east);
     \fill[SMUred] ([yshift=-\smubarht]current page.north west)
@@ -141,21 +142,23 @@
 %--- The line under the title doubles as a "sections to go" progress bar:
 %--- the crimson fill = sections already completed, so the empty remainder
 %--- shows how many sections are still ahead. -----------------------------------
-\def\smudivh{2.5pt}   % thickness of the divider progress line
+\def\smudivh{1.5pt}   % thickness of the divider progress line
 \AtBeginSection[]{%
-  \begin{frame}[c]
+  \begin{frame}[plain]% no header/footer; \vfill centers the block over the page
+    \vfill
     \centering
     \begin{minipage}{0.8\textwidth}
       \raggedright
       {\color{black}\Large\bfseries\insertsection\par}
       \vspace{0.6em}
       \pgfmathsetlength{\smuprog}%
-        {\linewidth*min(\insertsectionnumber-1,\totalsections)/\totalsections}%
+        {\linewidth*min(\insertsectionnumber,\totalsections)/\totalsections}%
       \begin{tikzpicture}
         \fill[SMUred!25] (0,0) rectangle (\linewidth,\smudivh);
         \fill[SMUred]    (0,0) rectangle (\smuprog,\smudivh);
       \end{tikzpicture}
     \end{minipage}
+    \vfill
   \end{frame}%
 }
 
