@@ -21,3 +21,5 @@ p_c-*.png
 v_*.png
 chk_*.png
 tmpf-*.png
+
+.DS_Store
