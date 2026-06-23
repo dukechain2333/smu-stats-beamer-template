@@ -14,7 +14,7 @@ ready to use on [Overleaf](https://www.overleaf.com) or any local LaTeX install.
 - Self-contained — built on **stock `beamer` + `tikz`**, no external theme to install
 - Progress bar in the header that fills as you advance through the deck
 - Helvetica text + Courier code, ready-made example slides (blocks, code, tables, equations)
-- Author-year references via **`biblatex`/`biber`** with placeholder entries to fill in
+- Chicago author-date references via **`biblatex-chicago`/`biber`** with placeholder entries to fill in
 
 ## How to use
 
