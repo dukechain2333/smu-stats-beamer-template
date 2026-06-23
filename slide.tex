@@ -130,14 +130,25 @@
 \fvset{numbers=left, numbersep=6pt, fontsize=\small, frame=single,
        framesep=3mm, rulecolor=\color{black!25}}
 
-%--- Section divider: its own page, no header (frame carries no frametitle) ----
+%--- Section divider: own page, no header (frame carries no frametitle).
+%--- The line under the title doubles as a "sections to go" progress bar:
+%--- the crimson fill = sections already completed, so the empty remainder
+%--- shows how many sections are still ahead. -----------------------------------
+\def\smudivh{2.5pt}   % thickness of the divider progress line
 \AtBeginSection[]{%
   \begin{frame}[c]
     \centering
-    {\usebeamercolor[fg]{structure}\Large\bfseries
-     \insertsectionnumber.\enspace\insertsection\par}
-    \vspace{0.6em}
-    {\color{SMUred}\rule{0.45\textwidth}{1pt}}
+    \begin{minipage}{0.8\textwidth}
+      \raggedright
+      {\color{black}\Large\bfseries\insertsection\par}
+      \vspace{0.6em}
+      \pgfmathsetlength{\smuprog}%
+        {\linewidth*min(\insertsectionnumber-1,\totalsections)/\totalsections}%
+      \begin{tikzpicture}
+        \fill[SMUred!25] (0,0) rectangle (\linewidth,\smudivh);
+        \fill[SMUred]    (0,0) rectangle (\smuprog,\smudivh);
+      \end{tikzpicture}
+    \end{minipage}
   \end{frame}%
 }
 
