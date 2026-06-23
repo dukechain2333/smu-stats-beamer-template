@@ -62,18 +62,29 @@
 \newlength{\smubarht}\setlength{\smubarht}{1.05cm}
 \newlength{\smuprog}          % computed width of the progress-bar fill
 \def\smuprogh{1pt}            % progress-bar thickness (along header's bottom edge)
-% Remember the total number of sections (from the previous run, via the .aux)
+% Remember the total number of sections (for the section-divider bar) and the
+% number of subsections in each section (for the header bar) -- both recorded
+% to the .aux on one run and read back on the next.
 \makeatletter
 \providecommand{\totalsections}{1}
+\newcommand{\smudefsubsec}[2]{\expandafter\gdef\csname subseccount@#1\endcsname{#2}}% global: section -> #subsecs
+\newcommand{\smunsubof}[1]{\ifcsname subseccount@#1\endcsname
+  \csname subseccount@#1\endcsname\else 1\fi}% look up (>=1 to avoid div by zero)
 \AtEndDocument{%
   \immediate\write\@auxout{\noexpand\gdef\noexpand\totalsections{\the\value{section}}}%
+}
+\AtBeginSubsection{%
+  \immediate\write\@auxout{%
+    \noexpand\smudefsubsec{\the\value{section}}{\the\value{subsection}}}%
 }
 \makeatother
 \setbeamertemplate{frametitle}{%
   \nointerlineskip%
-  % compute the section-progress width BEFORE the picture so it survives to \fill
+  % header bar tracks subsection progress within the current section
+  % (computed BEFORE the picture so the length survives to \fill)
+  \edef\smunsub{\smunsubof{\insertsectionnumber}}%
   \pgfmathsetlength{\smuprog}%
-    {\paperwidth*min(\insertsectionnumber,\totalsections)/\totalsections}%
+    {\paperwidth*min(\insertsubsectionnumber,\smunsub)/\smunsub}%
   \begin{tikzpicture}[remember picture, overlay]
     \fill[SMUblue] (current page.north west)
       rectangle ([yshift=-\smubarht]current page.north east);
@@ -87,7 +98,7 @@
       {\IfFileExists{SMUlogoWhite.png}%
         {\includegraphics[height=0.52\smubarht]{SMUlogoWhite.png}}%
         {\textcolor{white}{\Large\bfseries SMU}}};
-    % progress bar along the bottom edge of the header (follows section progress)
+    % progress bar along the bottom edge of the header (follows subsection progress)
     \fill[SMUred!25] ([yshift=-\smubarht]current page.north west)
       rectangle ([yshift=\dimexpr-\smubarht+\smuprogh\relax]current page.north east);
     \fill[SMUred] ([yshift=-\smubarht]current page.north west)
@@ -173,12 +184,13 @@
 
 % ---- Table of contents ------------------------------------------------------
 \begin{frame}{Table of contents}
-  \tableofcontents
+  \tableofcontents[subsectionstyle=hide]% sections only here; subsections still in PDF bookmarks
 \end{frame}
 
 % =============================================================================
 \section{Blocks}
 % =============================================================================
+\subsection{Blocks}
 \begin{frame}{Blocks}
   \begin{exampleblock}{Exercise block}
     Some exercise
@@ -191,6 +203,7 @@
 % =============================================================================
 \section{Adding extras}
 % =============================================================================
+\subsection{Adding codes}
 \begin{frame}[fragile]{Adding codes}
   \begin{Verbatim}
 > print("Hello world")
@@ -198,6 +211,7 @@
   \end{Verbatim}
 \end{frame}
 
+\subsection{Table}
 \begin{frame}{Table}
   \begin{table}
     \centering
@@ -214,6 +228,7 @@
   \end{table}
 \end{frame}
 
+\subsection{Equation}
 \begin{frame}{Equation}
   \[
     \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi\sigma^{2}}}\,
@@ -224,6 +239,7 @@
 % =============================================================================
 \section{References}
 % =============================================================================
+\subsection{Citations}
 \begin{frame}{Citations}
   \begin{itemize}
     \item Cite a work in the text with \texttt{\textbackslash textcite}:
@@ -236,6 +252,7 @@
 \end{frame}
 
 % ---- References (placeholder entries from slide.bib) ------------------------
+\subsection{Bibliography}
 \begin{frame}[allowframebreaks]{References}
   \footnotesize
   \nocite{*}% list every entry in slide.bib, even if not cited
