@@ -18,6 +18,8 @@
 \usepackage{amsmath}
 \usepackage[authordate, backend=biber]{biblatex-chicago}  % Chicago author-date (run biber)
 \addbibresource{slide.bib}
+\setlength{\bibitemsep}{3pt}   % tighter spacing between reference entries
+\AtBeginBibliography{\color{black}}
 
 %--- SMU brand colours --------------------------------------------------------
 \definecolor{SMUblue}{HTML}{354CA1}   % official SMU blue
@@ -39,6 +41,11 @@
 \setbeamertemplate{itemize items}[circle]
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamertemplate{bibliography item}{\textbullet}  % plain dot, not the doc/article icon
+\setbeamercolor{bibliography item}{fg=black}
+\setbeamercolor{bibliography entry author}{fg=black}
+\setbeamercolor{bibliography entry title}{fg=black}
+\setbeamercolor{bibliography entry location}{fg=black}
+\setbeamercolor{bibliography entry note}{fg=black}
 \setbeamertemplate{section in toc}[sections numbered]
 
 %--- Faded background watermark (only if SMUbg.png is present) -----------------
@@ -229,6 +236,7 @@
 \begin{frame}[allowframebreaks]{References}
   \footnotesize
   \nocite{*}% list every entry in slide.bib, even if not cited
+  \setlength{\leftskip}{1.5em}% nudge entries in from the left edge
   \printbibliography[heading=none]
 \end{frame}
 
