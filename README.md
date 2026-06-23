@@ -12,8 +12,9 @@ ready to use on [Overleaf](https://www.overleaf.com) or any local LaTeX install.
 - Faded Dallas Hall watermark, white **SMU** stamp on every slide, and the Dedman College
   wordmark on the title page
 - Self-contained — built on **stock `beamer` + `tikz`**, no external theme to install
-- Compiles with plain **pdfLaTeX** (no `bibtex`/`shell-escape` needed)
+- Progress bar in the header that fills as you advance through the deck
 - Helvetica text + Courier code, ready-made example slides (blocks, code, tables, equations)
+- Author-year references via **`biblatex`/`biber`** with placeholder entries to fill in
 
 ## How to use
 
@@ -63,16 +64,22 @@ examples as a guide.
 
 ```bash
 pdflatex slide.tex
-pdflatex slide.tex   # run twice so the TikZ header/watermark overlays settle
+biber slide          # resolves the references
+pdflatex slide.tex
+pdflatex slide.tex   # final pass so refs + progress bar settle
 ```
 
-(or simply `latexmk -pdf slide.tex`)
+(or simply `latexmk -pdf slide.tex`, which runs `biber` for you)
+
+> On Overleaf this is automatic — just set the compiler to **pdfLaTeX**; Overleaf detects
+> `biblatex` and runs `biber` on its own.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `slide.tex` | Main document — theme definition + your content |
+| `slide.bib` | Bibliography database (placeholder references — replace with your own) |
 | `SMUbg.png` | Dallas Hall watermark (faded background) |
 | `SMU-Dedman.jpg` | Dedman College wordmark (title page) |
 | `SMUlogoWhite.png` | White SMU stamp (top-right of each slide) |

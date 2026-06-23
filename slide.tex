@@ -16,6 +16,8 @@
 \usepackage{tikz}
 \usepackage{fancyvrb}
 \usepackage{amsmath}
+\usepackage[style=authoryear, backend=biber]{biblatex}  % citations + references (run biber)
+\addbibresource{slide.bib}
 
 %--- SMU brand colours --------------------------------------------------------
 \definecolor{SMUblue}{HTML}{354CA1}   % official SMU blue
@@ -178,6 +180,24 @@
     \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi\sigma^{2}}}\,
       e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}\,dx = 1
   \]
+\end{frame}
+
+\begin{frame}{Citations}
+  \begin{itemize}
+    \item Cite a work in the text with \texttt{\textbackslash textcite}:
+          \textcite{example2021} report a related result.
+    \item Or parenthetically with \texttt{\textbackslash parencite}
+          \parencite{example2019, examplebook2018}.
+    \item All entries live in \texttt{slide.bib}; run \texttt{biber} to build
+          the list below.
+  \end{itemize}
+\end{frame}
+
+% ---- References (placeholder entries from slide.bib) ------------------------
+\begin{frame}[allowframebreaks]{References}
+  \footnotesize
+  \nocite{*}% list every entry in slide.bib, even if not cited
+  \printbibliography[heading=none]
 \end{frame}
 
 \end{document}

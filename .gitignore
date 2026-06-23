@@ -8,9 +8,9 @@
 *.vrb
 *.bbl
 *.blg
+*.bcf
+*.run.xml
+*-blx.bib
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-*.figlist
-*.makefile
-*.figlist
