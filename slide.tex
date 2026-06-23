@@ -36,6 +36,7 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{itemize items}[circle]
 \setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{section in toc}[sections numbered]
 
 %--- Faded background watermark (only if SMUbg.png is present) -----------------
 \setbeamertemplate{background}{%
@@ -112,8 +113,9 @@
 
 \begin{document}
 
-% ---- Title ------------------------------------------------------------------
-{\setbeamertemplate{footline}{}\setbeamertemplate{frametitle}{}
+% ---- Title (no header, footer, or watermark) --------------------------------
+{\setbeamertemplate{footline}{}\setbeamertemplate{frametitle}{}%
+ \setbeamertemplate{background}{}
 \begin{frame}[plain]
   \titlepage
 \end{frame}}
