@@ -1,8 +1,8 @@
-# SMU Beamer Template
+# SMU Statistics & Data Science — Beamer Template
 
-An **unofficial** [Beamer](https://ctan.org/pkg/beamer) presentation template styled for
-**Southern Methodist University (SMU)** — ready to use on [Overleaf](https://www.overleaf.com)
-or any local LaTeX install.
+An **unofficial** [Beamer](https://ctan.org/pkg/beamer) presentation template styled for the
+**Department of Statistics and Data Science** at **Southern Methodist University (SMU)** —
+ready to use on [Overleaf](https://www.overleaf.com) or any local LaTeX install.
 
 ![Preview of the title slide and a content slide](preview.png)
 
@@ -28,10 +28,10 @@ Pick whichever fits your Overleaf plan:
 
 **a) One-click (easiest, works on free accounts)** — opens a fresh Overleaf project from this template:
 
-[![Open in Overleaf](https://img.shields.io/badge/Open%20in-Overleaf-47A141?logo=overleaf&logoColor=white)](https://www.overleaf.com/docs?snip_uri=https://github.com/dukechain2333/smu-beamer-template/archive/refs/heads/main.zip)
+[![Open in Overleaf](https://img.shields.io/badge/Open%20in-Overleaf-47A141?logo=overleaf&logoColor=white)](https://www.overleaf.com/docs?snip_uri=https://github.com/dukechain2333/smu-statistics-beamer-template/archive/refs/heads/main.zip)
 
-> Tip: after forking, swap `dukechain2333/smu-beamer-template` in that link for
-> `YOUR-USERNAME/smu-beamer-template` to load your own fork.
+> Tip: after forking, swap `dukechain2333/smu-statistics-beamer-template` in that link for
+> `YOUR-USERNAME/smu-statistics-beamer-template` to load your own fork.
 
 **b) Import from GitHub (keeps the repo linked, Overleaf Premium)** —
 in Overleaf go to **New Project → Import from GitHub**, authorize GitHub if prompted,
