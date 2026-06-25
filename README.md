@@ -60,6 +60,39 @@ Open `slide.tex` and fill in your details:
 Then write your slides between `\begin{document}` and `\end{document}` using the included
 examples as a guide.
 
+## Slide structure (important)
+
+This template's table of contents and **two progress bars** are driven by the
+`section → subsection → frame` hierarchy. Getting that hierarchy wrong is the most common
+cause of a broken TOC or a progress bar stuck at 0 % / 100 %. Follow these rules:
+
+```latex
+\section{Adding extras}      % 1. section first
+\subsection{Table}           % 2. then a subsection
+\begin{frame}{Table}         % 3. then the frame(s)
+  ...
+\end{frame}
+```
+
+- **Always nest `\section` → `\subsection` → `\begin{frame}`.** Put `\section` and
+  `\subsection` on their own line *before* the frame they introduce — never inside a frame.
+- **Every content frame must sit under a `\subsection`.** The header progress bar measures
+  the current subsection's position within its section, so a frame with no subsection shows
+  an **empty** bar.
+- **A subsection may hold several frames.** The header bar just stays on that subsection's
+  number across them — that's expected.
+- **The `\subsection` name** feeds the TOC, the PDF bookmarks, and the progress-bar steps;
+  the **frame title** `\begin{frame}{...}` is only the on-slide header. They can match or
+  differ — you don't have to repeat the subsection name as the title.
+- **Keep the title and table-of-contents frames above the first `\section`** so they stay
+  out of the TOC and bookmarks.
+- **Recompile twice after structural edits.** The TOC and progress bars are computed from
+  `slide.aux` across runs, so after adding/removing/reordering any (sub)section run the build
+  again (or just use `latexmk -pdf slide.tex`).
+
+The same rules are repeated as a comment block inside `slide.tex`, just above the first
+`\section`, for quick reference while editing.
+
 ## Building locally
 
 ```bash

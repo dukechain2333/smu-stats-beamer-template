@@ -187,6 +187,35 @@
   \tableofcontents[subsectionstyle=hide]% sections only here; subsections still in PDF bookmarks
 \end{frame}
 
+%==============================================================================
+%  HOW TO STRUCTURE YOUR SLIDES  -- read this before adding content
+%
+%  Required hierarchy:   \section  ->  \subsection  ->  \begin{frame}{...}
+%
+%  1. Every content frame must live inside a \subsection, which lives inside a
+%     \section.  Declare \section / \subsection on their OWN line, BEFORE the
+%     \begin{frame} they introduce -- never put them inside a frame.
+%
+%  2. Do NOT place a frame directly under a \section with no \subsection.
+%     The header progress bar measures the current subsection's position within
+%     its section, so a frame with no subsection shows an EMPTY bar.
+%
+%  3. A subsection MAY contain several frames.  The header bar simply holds that
+%     subsection's number across all of them -- that is expected, not a bug.
+%
+%  4. The \subsection name drives the table of contents, the PDF bookmarks, and
+%     the header progress-bar steps.  The frame title in \begin{frame}{...} is
+%     only the on-slide header.  They may match or differ -- you do NOT have to
+%     repeat the subsection name as the frame title.
+%
+%  5. Keep the title page and table-of-contents frames (the [plain] ones above)
+%     ABOVE the first \section so they stay out of the TOC and bookmarks.
+%
+%  6. The TOC and both progress bars are computed from slide.aux across runs.
+%     After you add, remove, or reorder any (sub)section, compile twice
+%     (or run `latexmk -pdf slide.tex`) so they settle to the right values.
+%==============================================================================
+
 % =============================================================================
 \section{Blocks}
 % =============================================================================
