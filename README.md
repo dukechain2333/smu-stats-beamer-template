@@ -4,6 +4,12 @@ An **unofficial** [Beamer](https://ctan.org/pkg/beamer) presentation template st
 **Department of Statistics and Data Science** at **Southern Methodist University (SMU)** —
 ready to use on [Overleaf](https://www.overleaf.com) or any local LaTeX install.
 
+> **Prefer Markdown?** A [Quarto](https://quarto.org) version of this template, where you
+> write slides in `slide.qmd` and can run R / Python code in them, lives on the
+> [`quarto`](https://github.com/dukechain2333/smu-stats-beamer-template/tree/quarto) branch.
+> Start a new deck from it with
+> `quarto use template dukechain2333/smu-stats-beamer-template@quarto`.
+
 ![Preview of the title slide and a content slide](preview.png)
 
 ## Features
