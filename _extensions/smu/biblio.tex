@@ -1,0 +1,26 @@
+$-- The reference list is normally placed by a `::: {#refs}` div in the slides
+$-- (smu.lua turns it into \printbibliography).  Without one, fall back to a
+$-- References slide at the very end, like stock Quarto.
+$if(biblatex)$
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$if(smu-refs-placed)$
+$else$
+\begin{frame}[allowframebreaks]{$if(biblio-title)$$biblio-title$$else$References$endif$}
+  \footnotesize
+  \setlength{\leftskip}{1.5em}
+  \printbibliography[heading=none]
+\end{frame}
+$endif$
+$endif$
+$if(natbib)$
+$if(bibliography)$
+\begin{frame}[allowframebreaks]{$if(biblio-title)$$biblio-title$$else$References$endif$}
+$if(nocite-ids)$
+  \nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+  \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+\end{frame}
+$endif$
+$endif$

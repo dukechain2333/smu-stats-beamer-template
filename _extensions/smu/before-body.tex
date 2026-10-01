@@ -1,0 +1,9 @@
+$-- Title slide: no header, footer, or watermark.  The overrides live inside
+$-- the frame because Quarto's `ignorenonframetext` class option drops
+$-- anything placed between frames.
+$if(title)$
+\begin{frame}[plain]
+  \setbeamertemplate{background}{}%
+  \titlepage
+\end{frame}
+$endif$

@@ -1,0 +1,12 @@
+$-- Load biblatex through biblatex-chicago (Chicago author-date) instead of
+$-- plain biblatex.  Extra `biblatexoptions` are passed through.
+$if(biblatex)$
+\usepackage[authordate, backend=biber$for(biblatexoptions)$, $biblatexoptions$$endfor$]{biblatex-chicago}
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+$if(natbib)$
+\usepackage[$natbiboptions$]{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$

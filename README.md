@@ -1,8 +1,13 @@
-# SMU Statistics & Data Science — Beamer Template
+# SMU Statistics & Data Science — Beamer Template (Quarto)
 
-An **unofficial** [Beamer](https://ctan.org/pkg/beamer) presentation template styled for the
-**Department of Statistics and Data Science** at **Southern Methodist University (SMU)** —
-ready to use on [Overleaf](https://www.overleaf.com) or any local LaTeX install.
+An **unofficial** [Quarto](https://quarto.org) presentation template styled for the
+**Department of Statistics and Data Science** at **Southern Methodist University (SMU)**.
+You write slides in Markdown (`slide.qmd`), and Quarto renders them to a Beamer PDF with the
+same look as the LaTeX template.
+
+> **This is the `quarto` branch.** The original plain-LaTeX version (`slide.tex`, which also
+> works on Overleaf) lives on the
+> [`main`](https://github.com/dukechain2333/smu-stats-beamer-template/tree/main) branch.
 
 ![Preview of the title slide and a content slide](preview.png)
 
@@ -11,116 +16,190 @@ ready to use on [Overleaf](https://www.overleaf.com) or any local LaTeX install.
 - Clean SMU-branded look: navy header bar (`#354CA1`) with a crimson accent stripe (`#CC0035`)
 - Faded Dallas Hall watermark, white **SMU** stamp on every slide, and the Dedman College
   wordmark on the title page
-- Self-contained — built on **stock `beamer` + `tikz`**, no external theme to install
-- Progress bar in the header that fills as you advance through the deck
+- Write slides in **Markdown**, and run **R / Python code** in them
+- Progress bar in the header that fills as you advance through the deck, plus a
+  "sections to go" bar on each section divider
 - Helvetica text + Courier code, ready-made example slides (blocks, code, tables, equations)
-- Chicago author-date references via **`biblatex-chicago`/`biber`** with placeholder entries to fill in
+- Chicago author-date references via **`biblatex-chicago`/`biber`**: cite with `@key` /
+  `[@key]`
+
+## Requirements
+
+- [Quarto](https://quarto.org/docs/get-started/) 1.4 or newer
+- A LaTeX distribution with `pdflatex`, `biber`, and `biblatex-chicago`. Any full
+  TeX Live / MacTeX / MiKTeX install has these. If you use TinyTeX (`quarto install tinytex`),
+  Quarto installs most missing packages for you on first render. You may need to add
+  `biber` yourself with `tlmgr install biber biblatex-chicago`.
+- *(optional)* R with the `knitr` + `rmarkdown` packages, or Python with Jupyter, only if
+  you want code chunks to run
 
 ## How to use
 
-### 1. Fork this repository
+### 1. Get a copy
 
-Click **Fork** (top-right of this page) so you have your own copy to edit. This keeps the
-template intact and gives you a repo you can import and version.
+**a) `quarto use template` (easiest).** This creates a new folder with `slide.qmd`, the
+theme extension, `slide.bib`, and the logo images:
 
-### 2. Open it in Overleaf
-
-Pick whichever fits your Overleaf plan:
-
-**a) One-click (easiest, works on free accounts)** — opens a fresh Overleaf project from this template:
-
-[![Open in Overleaf](https://img.shields.io/badge/Open%20in-Overleaf-47A141?logo=overleaf&logoColor=white)](https://www.overleaf.com/docs?snip_uri=https://github.com/dukechain2333/smu-stats-beamer-template/archive/refs/heads/main.zip)
-
-> Tip: after forking, swap `dukechain2333/smu-stats-beamer-template` in that link for
-> `YOUR-USERNAME/smu-stats-beamer-template` to load your own fork.
-
-**b) Import from GitHub (keeps the repo linked, Overleaf Premium)** —
-in Overleaf go to **New Project → Import from GitHub**, authorize GitHub if prompted,
-and select **your fork**. Changes can then be synced both ways.
-
-**c) Download & upload (works on free accounts)** —
-on your fork click **Code → Download ZIP**, then in Overleaf choose
-**New Project → Upload Project** and drop the ZIP in.
-
-Overleaf auto-detects `slide.tex` as the main document. Make sure the compiler is set to
-**pdfLaTeX** (Menu → Compiler).
-
-### 3. Edit and present
-
-Open `slide.tex` and fill in your details:
-
-```latex
-\title{Long title \\ Secondary title}
-\subtitle{Additional notes}
-\author{Your Name}
-\institute{Department of Statistics and Data Science,\\
-           Southern Methodist University}
+```bash
+quarto use template dukechain2333/smu-stats-beamer-template@quarto
 ```
 
-Then write your slides between `\begin{document}` and `\end{document}` using the included
-examples as a guide.
+**b) Fork and check out this branch.** Click **Fork** on GitHub (untick "Copy the `main`
+branch only"), clone your fork, then run `git checkout quarto`.
+
+**c) Download ZIP.** Switch GitHub's branch selector to `quarto`, then choose
+**Code → Download ZIP**.
+
+> Overleaf can't run Quarto. If you want to edit on Overleaf, use the LaTeX template on
+> the `main` branch.
+
+### 2. Edit and render
+
+Fill in the YAML header at the top of `slide.qmd`:
+
+```yaml
+---
+title: |
+  Long title\
+  Secondary title
+subtitle: Additional notes
+author: Your Name
+institute: |
+  Department of Statistics and Data Science,\
+  Southern Methodist University
+bibliography: slide.bib
+format: smu-beamer
+---
+```
+
+(A trailing `\` forces a line break, as in `\\` in LaTeX.) Then write your slides below the
+header and render:
+
+```bash
+quarto render slide.qmd
+```
+
+You can also press **Render** / **Preview** in RStudio, Positron, or VS Code with the Quarto
+extension. The title slide and table of contents are generated for you from the YAML header.
 
 ## Slide structure (important)
 
-This template's table of contents and **two progress bars** are driven by the
-`section → subsection → frame` hierarchy. Getting that hierarchy wrong is the most common
-cause of a broken TOC or a progress bar stuck at 0 % / 100 %. Follow these rules:
+The table of contents and **two progress bars** are driven by the
+`section → subsection → slide` hierarchy, which maps to heading levels:
 
-```latex
-\section{Adding extras}      % 1. section first
-\subsection{Table}           % 2. then a subsection
-\begin{frame}{Table}         % 3. then the frame(s)
-  ...
-\end{frame}
+```markdown
+# Adding extras        <!-- 1. section (gets a divider slide) -->
+
+## Table               <!-- 2. then a subsection -->
+
+### Table              <!-- 3. then the slide(s); this is the slide title -->
+
+Slide content ...
 ```
 
-- **Always nest `\section` → `\subsection` → `\begin{frame}`.** Put `\section` and
-  `\subsection` on their own line *before* the frame they introduce — never inside a frame.
-- **Every content frame must sit under a `\subsection`.** The header progress bar measures
-  the current subsection's position within its section, so a frame with no subsection shows
-  an **empty** bar.
-- **A subsection may hold several frames.** The header bar just stays on that subsection's
-  number across them — that's expected.
-- **The `\subsection` name** feeds the TOC, the PDF bookmarks, and the progress-bar steps;
-  the **frame title** `\begin{frame}{...}` is only the on-slide header. They can match or
-  differ — you don't have to repeat the subsection name as the title.
-- **Keep the title and table-of-contents frames above the first `\section`** so they stay
-  out of the TOC and bookmarks.
-- **Recompile twice after structural edits.** The TOC and progress bars are computed from
-  `slide.aux` across runs, so after adding/removing/reordering any (sub)section run the build
-  again (or just use `latexmk -pdf slide.tex`).
+- **Always nest `#` → `##` → `###`.** `#` is a section, `##` a subsection, and `###`
+  starts a new slide.
+- **Every slide must sit under a `##` subsection.** The header progress bar measures the
+  current subsection's position within its section, so a slide with no subsection shows an
+  **empty** bar.
+- **A subsection may hold several `###` slides.** The header bar just stays on that
+  subsection's number across them. That's expected.
+- **The `##` name** feeds the TOC, the PDF bookmarks, and the progress-bar steps.
+  **The `###` heading** is only the on-slide title. They can match or differ.
+- **Don't write the title or TOC slides by hand.** They come from the YAML header (set
+  `toc: false` under `format: smu-beamer:` to drop the TOC).
 
-The same rules are repeated as a comment block inside `slide.tex`, just above the first
-`\section`, for quick reference while editing.
+The same rules are repeated as a comment block inside `slide.qmd`, just below the YAML
+header.
 
-## Building locally
+## Writing slides
 
-```bash
-pdflatex slide.tex
-biber slide          # resolves the references
-pdflatex slide.tex
-pdflatex slide.tex   # final pass so refs + progress bar settle
+| You want… | Write in `slide.qmd` |
+|-----------|----------------------|
+| Blue block | `#### Definition block` inside a slide |
+| Crimson block | `#### Exercise block {.example}` |
+| Code | a fenced ```` ``` ```` block (framed and line-numbered automatically) |
+| Inline math / display math | `$x^2$` / `$$ ... $$` |
+| Table with caption | a Markdown pipe table followed by `: Caption` |
+| Citation | `@key` → Doe and Smith (2021); `[@key1; @key2]` → (Doe and Smith 2021; …) |
+| Slide whose content may overflow | `### Title {.allowframebreaks}` |
+
+Markdown tables render with booktabs-style horizontal rules. They don't have the full grid
+of the LaTeX version. If you need the grid, put a raw LaTeX `tabular` in the slide.
+
+### Running code
+
+Turn a fenced block into a live chunk by adding braces around the language. Quarto hides
+the source of executed code on slides by default, so turn `echo` on to show it:
+
+````markdown
+```{r}
+#| echo: true
+summary(cars$speed)
+```
+````
+
+The source and its output each get the same framed, line-numbered look. A document with
+`{r}` chunks needs R + `knitr`/`rmarkdown`. With `{python}` chunks it needs Python + Jupyter.
+
+### References
+
+Entries live in `slide.bib`. The reference list is printed wherever this div appears. In
+the template it sits on the last slide:
+
+```markdown
+## Bibliography
+
+### References {.allowframebreaks}
+
+::: {#refs}
+:::
 ```
 
-(or simply `latexmk -pdf slide.tex`, which runs `biber` for you)
+If you delete the div, a **References** slide is added at the end automatically.
+`nocite: "@*"` in the YAML header lists every entry in `slide.bib`, even uncited ones.
+Remove it to list only what you cite.
 
-> On Overleaf this is automatic — just set the compiler to **pdfLaTeX**; Overleaf detects
-> `biblatex` and runs `biber` on its own.
+## How it works
+
+`format: smu-beamer` comes from the Quarto extension in `_extensions/smu/`:
+
+| File | Purpose |
+|------|---------|
+| `_extension.yml` | Format defaults: `pdflatex`, 4:3, 11pt, `slide-level: 3`, TOC, biblatex, ≥ 2 LaTeX passes |
+| `smu-theme.tex` | The theme itself (colours, header bar, title page, dividers, footer), the same as the preamble of `slide.tex` on `main` |
+| `before-body.tex`, `toc.tex` | Title slide and table-of-contents slide |
+| `biblio-config.tex`, `biblio.tex` | Load `biblatex-chicago` and place the fallback References slide |
+| `smu.lua` | Turns `::: {#refs}` into `\printbibliography`, and drops HTML comments so they don't create blank slides |
+
+Any option in `_extension.yml` can be overridden per document:
+
+```yaml
+format:
+  smu-beamer:
+    aspectratio: 169   # widescreen
+    toc: false
+    keep-tex: true     # keep slide.tex for debugging
+```
+
+The TOC and both progress bars are computed from the `.aux` file of the previous LaTeX
+pass. The format always runs LaTeX at least twice, so they settle on their own.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `slide.tex` | Main document — theme definition + your content |
-| `slide.bib` | Bibliography database (placeholder references — replace with your own) |
+| `slide.qmd` | Your slides (YAML header + Markdown content) |
+| `_extensions/smu/` | The `smu-beamer` Quarto format (see above) |
+| `slide.bib` | Bibliography database (placeholder references; replace with your own) |
 | `SMUbg.png` | Dallas Hall watermark (faded background) |
 | `SMU-Dedman.jpg` | Dedman College wordmark (title page) |
 | `SMUlogoWhite.png` | White SMU stamp (top-right of each slide) |
-| `preview.png` | Rendered preview shown above |
+| `slide.pdf`, `preview.png` | Rendered example deck and the preview shown above |
 
-The image assets are optional: the template uses `\IfFileExists` and falls back gracefully
-(text logo, no watermark) if any are missing. Drop in your own institution's images to
-re-skin it.
+The image assets are optional. They are looked up next to `slide.qmd`, and the theme falls
+back gracefully (text logo, no watermark) if any are missing. Drop in your own institution's
+images to re-skin it.
 
 ## License & trademarks
 

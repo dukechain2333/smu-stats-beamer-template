@@ -1,0 +1,118 @@
+---
+title: |
+  Long title\
+  Secondary title
+subtitle: Additional notes
+author: Author Name
+institute: |
+  Department of Statistics and Data Science,\
+  Southern Methodist University
+bibliography: slide.bib
+nocite: |
+  @*
+format: smu-beamer
+---
+
+<!--
+==============================================================================
+  HOW TO STRUCTURE YOUR SLIDES  -- read this before adding content
+
+  Required hierarchy:   # section  ->  ## subsection  ->  ### slide (frame)
+
+  1. Every slide must live inside a `##` subsection, which lives inside a `#`
+     section.  The title slide and table of contents are generated for you
+     from the YAML header above -- do not write them by hand.
+
+  2. Do NOT put a `###` slide directly under a `#` section with no `##`
+     subsection.  The header progress bar measures the current subsection's
+     position within its section, so a slide with no subsection shows an
+     EMPTY bar.
+
+  3. A subsection MAY contain several slides.  The header bar simply holds
+     that subsection's number across all of them -- that is expected.
+
+  4. The `##` subsection name drives the table of contents, the PDF bookmarks,
+     and the header progress-bar steps.  The `###` heading is only the
+     on-slide header.  They may match or differ.
+
+  5. A `####` heading inside a slide starts a blue block; add {.example}
+     for the crimson block.
+
+  6. Render with `quarto render slide.qmd`.  The TOC and both progress bars
+     are computed from the .aux of the previous LaTeX pass; the format already
+     runs LaTeX at least twice, so they settle on their own.
+==============================================================================
+-->
+
+# Blocks
+
+## Blocks
+
+### Blocks
+
+#### Exercise block {.example}
+
+Some exercise
+
+#### Definition block
+
+Some definition
+
+# Adding extras
+
+## Adding codes
+
+### Adding codes
+
+<!-- Swap ``` for ```{r} to run the code and show its real output
+     (needs R + the knitr/rmarkdown packages). -->
+
+```
+> print("Hello world")
+[1] "Hello world"
+```
+
+## Table
+
+### Table
+
+|  Sun | Mon | Tue | Wed | Thu | Fri | Sat |
+|:----:|:---:|:---:|:---:|:---:|:---:|:---:|
+|      |  1  |  2  |  3  |  4  |  5  |  6  |
+|   7  |  8  |  9  | 10  | 11  | 12  | 13  |
+|  14  | 15  | 16  | 17  | 18  | 19  | 20  |
+|  21  | 22  | 23  | 24  | 25  | 26  | 27  |
+|  28  | 29  | 30  |     |     |     |     |
+
+: April 2019
+
+## Equation
+
+### Equation
+
+$$
+\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi\sigma^{2}}}\,
+  e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}\,dx = 1
+$$
+
+# References
+
+## Citations
+
+### Citations
+
+- Cite a work in the text with `@key`:
+  @example2021 report a related result.
+- Or parenthetically with `[@key]`
+  [@example2019; @examplebook2018].
+- All entries live in `slide.bib`; Quarto runs `biber` to build the list
+  below.
+
+## Bibliography
+
+### References {.allowframebreaks}
+
+<!-- The reference list is printed wherever this div sits. -->
+
+::: {#refs}
+:::

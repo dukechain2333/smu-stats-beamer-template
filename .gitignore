@@ -23,3 +23,10 @@ chk_*.png
 tmpf-*.png
 
 .DS_Store
+
+# Quarto
+.quarto/
+*_files/
+*_cache/
+# intermediate LaTeX (only left behind with keep-tex: true)
+slide.tex

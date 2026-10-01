@@ -1,0 +1,6 @@
+$-- Sections only here; subsections still show up in the PDF bookmarks.
+$if(toc)$
+\begin{frame}{$if(toc-title)$$toc-title$$else$Table of contents$endif$}
+  \tableofcontents[subsectionstyle=hide]
+\end{frame}
+$endif$

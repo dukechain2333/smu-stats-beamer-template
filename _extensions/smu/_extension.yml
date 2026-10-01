@@ -1,0 +1,34 @@
+title: SMU Beamer
+author: William Qian
+version: 1.0.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    beamer:
+      # Same engine as the LaTeX version (Helvetica/Courier via T1 fonts).
+      pdf-engine: pdflatex
+      aspectratio: 43
+      fontsize: 11pt
+      # Heading levels map to the deck hierarchy:
+      #   #  -> \section    ##  -> \subsection    ###  -> frame (slide)
+      #   #### inside a slide -> block ({.example} -> exampleblock)
+      slide-level: 3
+      # The theme draws its own section dividers; turn off Quarto's.
+      section-titles: false
+      # Keep stock beamer paragraph spacing (otherwise Quarto loads parskip).
+      indent: true
+      toc: true
+      toc-title: Table of contents
+      # Chicago author-date references through biblatex-chicago + biber.
+      cite-method: biblatex
+      # The TOC and both progress bars read values written to the .aux on the
+      # previous pass, and Quarto starts each render from a clean slate.
+      latex-min-runs: 2
+      include-in-header: smu-theme.tex
+      template-partials:
+        - before-body.tex
+        - toc.tex
+        - biblio-config.tex
+        - biblio.tex
+      filters:
+        - smu.lua

@@ -1,25 +1,19 @@
 %==============================================================================
-%  slide.tex  --  Unofficial SMU (Southern Methodist University) Beamer theme
+%  smu-theme.tex  --  Unofficial SMU (Southern Methodist University) Beamer theme
 %
-%  Self-contained: stock beamer + tikz.  The brand assets SMUbg.png /
-%  SMU-Dedman.jpg / SMUlogoWhite.png are picked up automatically if present,
-%  and the deck degrades gracefully without them.
+%  Injected into the preamble by the `smu-beamer` Quarto format (see
+%  _extension.yml).  Same look as slide.tex on the LaTeX (main) branch.
 %
-%  Build:  pdflatex slide   (run twice so the tikz overlays settle)
+%  The brand assets SMUbg.png / SMU-Dedman.jpg / SMUlogoWhite.png are looked up
+%  next to slide.qmd and picked up automatically if present; the deck degrades
+%  gracefully without them.
 %==============================================================================
-\documentclass[aspectratio=43,11pt]{beamer}
-
 \usepackage[T1]{fontenc}
 \usepackage[scaled]{helvet}  % Helvetica (text)
 \usepackage{courier}         % Courier (code)
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{tikz}
 \usepackage{fancyvrb}
-\usepackage{amsmath}
-\usepackage[authordate, backend=biber]{biblatex-chicago}  % Chicago author-date (run biber)
-\addbibresource{slide.bib}
-\setlength{\bibitemsep}{3pt}   % tighter spacing between reference entries
-\AtBeginBibliography{\color{black}}
 
 %--- SMU brand colours --------------------------------------------------------
 \definecolor{SMUblue}{HTML}{354CA1}   % official SMU blue
@@ -47,6 +41,10 @@
 \setbeamercolor{bibliography entry location}{fg=black}
 \setbeamercolor{bibliography entry note}{fg=black}
 \setbeamertemplate{section in toc}[sections numbered]
+
+%--- Undo Quarto's caption tweaks so captions match stock beamer ("Table: ...")
+\setbeamertemplate{caption}[default]
+\setbeamercolor{caption name}{use=structure, fg=structure.fg}
 
 %--- Faded background watermark (only if SMUbg.png is present) -----------------
 \setbeamertemplate{background}{%
@@ -137,17 +135,17 @@
   \end{centering}
 }
 
-%--- Metadata (fill in as needed) ---------------------------------------------
-\title{Long title \\ Secondary title}
-\subtitle{Additional notes}
-\author{Author Name}
-\institute{Department of Statistics and Data Science,\\
-           Southern Methodist University}
-\date{}
-
-%--- Code listing look (numbered Verbatim) ------------------------------------
+%--- Code listing look (numbered, framed Verbatim) ----------------------------
 \fvset{numbers=left, numbersep=6pt, fontsize=\small, frame=single,
        framesep=3mm, rulecolor=\color{black!25}}
+% Plain ``` blocks come out as `verbatim`; route them through fancyvrb so they
+% pick up the settings above.
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{}
+% Highlighted blocks (```r, ```python, ...) are wrapped in a grey `Shaded` box;
+% drop it so they get the same thin frame.
+\ifcsname Shaded\endcsname
+  \renewenvironment{Shaded}{}{}
+\fi
 
 %--- Section divider: own page, no header (frame carries no frametitle).
 %--- The line under the title doubles as a "sections to go" progress bar:
@@ -173,120 +171,10 @@
   \end{frame}%
 }
 
-\begin{document}
-
-% ---- Title (no header, footer, or watermark) --------------------------------
-{\setbeamertemplate{footline}{}\setbeamertemplate{frametitle}{}%
- \setbeamertemplate{background}{}
-\begin{frame}[plain]
-  \titlepage
-\end{frame}}
-
-% ---- Table of contents ------------------------------------------------------
-\begin{frame}{Table of contents}
-  \tableofcontents[subsectionstyle=hide]% sections only here; subsections still in PDF bookmarks
-\end{frame}
-
-%==============================================================================
-%  HOW TO STRUCTURE YOUR SLIDES  -- read this before adding content
-%
-%  Required hierarchy:   \section  ->  \subsection  ->  \begin{frame}{...}
-%
-%  1. Every content frame must live inside a \subsection, which lives inside a
-%     \section.  Declare \section / \subsection on their OWN line, BEFORE the
-%     \begin{frame} they introduce -- never put them inside a frame.
-%
-%  2. Do NOT place a frame directly under a \section with no \subsection.
-%     The header progress bar measures the current subsection's position within
-%     its section, so a frame with no subsection shows an EMPTY bar.
-%
-%  3. A subsection MAY contain several frames.  The header bar simply holds that
-%     subsection's number across all of them -- that is expected, not a bug.
-%
-%  4. The \subsection name drives the table of contents, the PDF bookmarks, and
-%     the header progress-bar steps.  The frame title in \begin{frame}{...} is
-%     only the on-slide header.  They may match or differ -- you do NOT have to
-%     repeat the subsection name as the frame title.
-%
-%  5. Keep the title page and table-of-contents frames (the [plain] ones above)
-%     ABOVE the first \section so they stay out of the TOC and bookmarks.
-%
-%  6. The TOC and both progress bars are computed from slide.aux across runs.
-%     After you add, remove, or reorder any (sub)section, compile twice
-%     (or run `latexmk -pdf slide.tex`) so they settle to the right values.
-%==============================================================================
-
-% =============================================================================
-\section{Blocks}
-% =============================================================================
-\subsection{Blocks}
-\begin{frame}{Blocks}
-  \begin{exampleblock}{Exercise block}
-    Some exercise
-  \end{exampleblock}
-  \begin{block}{Definition block}
-    Some definition
-  \end{block}
-\end{frame}
-
-% =============================================================================
-\section{Adding extras}
-% =============================================================================
-\subsection{Adding codes}
-\begin{frame}[fragile]{Adding codes}
-  \begin{Verbatim}
-> print("Hello world")
-[1] "Hello world"
-  \end{Verbatim}
-\end{frame}
-
-\subsection{Table}
-\begin{frame}{Table}
-  \begin{table}
-    \centering
-    \caption{April 2019}
-    \begin{tabular}{|c|c|c|c|c|c|c|}
-      \hline
-      Sun & Mon & Tue & Wed & Thu & Fri & Sat \\ \hline
-          & 1  & 2  & 3  & 4  & 5  & 6  \\ \hline
-      7   & 8  & 9  & 10 & 11 & 12 & 13 \\ \hline
-      14  & 15 & 16 & 17 & 18 & 19 & 20 \\ \hline
-      21  & 22 & 23 & 24 & 25 & 26 & 27 \\ \hline
-      28  & 29 & 30 &    &    &    &    \\ \hline
-    \end{tabular}
-  \end{table}
-\end{frame}
-
-\subsection{Equation}
-\begin{frame}{Equation}
-  \[
-    \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi\sigma^{2}}}\,
-      e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}\,dx = 1
-  \]
-\end{frame}
-
-% =============================================================================
-\section{References}
-% =============================================================================
-\subsection{Citations}
-\begin{frame}{Citations}
-  \begin{itemize}
-    \item Cite a work in the text with \texttt{\textbackslash textcite}:
-          \textcite{example2021} report a related result.
-    \item Or parenthetically with \texttt{\textbackslash parencite}
-          \parencite{example2019, examplebook2018}.
-    \item All entries live in \texttt{slide.bib}; run \texttt{biber} to build
-          the list below.
-  \end{itemize}
-\end{frame}
-
-% ---- References (placeholder entries from slide.bib) ------------------------
-\subsection{Bibliography}
-\begin{frame}[allowframebreaks]{References}
-  \footnotesize
-  \nocite{*}% list every entry in slide.bib, even if not cited
-  \setlength{\leftskip}{1.5em}% nudge entries in from the left edge
-  \printbibliography[heading=none]
-\end{frame}
-
-\end{document}
+%--- Bibliography look (biblatex-chicago is loaded by biblio-config.tex) --------
+\makeatletter
+\@ifpackageloaded{biblatex}{%
+  \AtBeginBibliography{\color{black}}%
+  \setlength{\bibitemsep}{3pt}% tighter spacing between reference entries
+}{}
+\makeatother
